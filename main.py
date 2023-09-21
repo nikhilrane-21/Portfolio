@@ -1,23 +1,27 @@
 import streamlit as st
-import webbrowser
 
 st.set_page_config(page_title="Sixthsens AI Portfolio", page_icon="🤖", layout="wide")
-hide_streamlit_style = """
-            <style>
-            .css-1jc7ptx, .e1ewe7hr3, .viewerBadge_container__1QSob,
-            .styles_viewerBadge__1yB5_, .viewerBadge_link__1S137,
-            .viewerBadge_text__1JaDK {display: none;}
-            MainMenu {visibility: hidden;}
-            header { visibility: hidden; }
-            footer {visibility: hidden;}
-            #GithubIcon {visibility: hidden;}
-            </style>
-            """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
+custom_css = """
+<style>
+    /* Hide Streamlit menu */
+    #MainMenu {visibility: hidden;}
+    /* Center align page content */
+    .fullScreenFrame > div {display: flex; flex-direction: column; align-items: center;}
+    /* Add custom styles to headers */
+    h1 {color: #FF5733; font-size: 36px;}
+    h2 {color: #009688; font-size: 24px;}
+    /* Add custom styles to buttons */
+    .stButton > button {background-color: #009688; color: white;}
+</style>
+"""
+st.markdown(custom_css, unsafe_allow_html=True)
+
 
 def main():
-    st.title("SixthSens AI Video Analytics Solutions")
-    st.write("---")
+    st.title("Welcome to SixthSens AI Portfolio 🚀")
+    st.write("Explore our exciting AI video analytics solutions below!")
+
     projects = {
         "Safety Gears Detection": {
             "description": "This project involves the detection of safety gears such as helmets and hard hats. It's crucial in ensuring the safety of individuals in hazardous work environments.",
@@ -49,23 +53,36 @@ def main():
             "live_link": "https://example.com/this-site-is-currently-under-development",
             "video_demo_link": "https://drive.google.com/file/d/1pQFy8Hmsv_YNTJllgjhrjhXdRg1w7u5x/view?usp=drive_link"
         },
-        # Add entries for other projects here
+        # entries for other projects here
     }
 
-    for idx, (title, data) in enumerate(projects.items()):
-        col1, col2, col3 = st.columns([4, 1, 1])
+    for title, data in projects.items():
+        st.header(title)
+        st.write(data["description"])
+
+        col1, col2 = st.columns(2)
         with col1:
-            st.header(title)
-            st.write(data["description"])
-            if idx < len(projects) - 1:  # Add a line break after all but the last project
-                st.write("---")
+            st.write(f'''<a target="_blank" href="{data['live_link']}">
+                                <button>
+                                    Explore Project
+                                </button>
+                            </a>''',
+                       unsafe_allow_html=True
+                        )
         with col2:
-            if st.button('Go to Project', key=f'live_{title}'):
-                webbrowser.open(data["live_link"])
-        with col3:
-            if st.button('Video Demo', key=f'video_{title}'):
-                webbrowser.open(data["video_demo_link"])
+            st.write(f'''<a target="_blank" href="{data['video_demo_link']}">
+                                <button>
+                                    Watch Video Demo
+                                </button>
+                            </a>''',
+                       unsafe_allow_html=True
+                        )
+
+        if title != list(projects.keys())[-1]:
+            st.write("---")
+
 
 if __name__ == "__main__":
     main()
+
 st.write("---")
